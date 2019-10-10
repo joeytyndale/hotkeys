@@ -1,0 +1,11 @@
+trigger phrase,"type (p=phrase, url=link)",phrase/url (the phrase or url to be launched),options (more on this later)
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
