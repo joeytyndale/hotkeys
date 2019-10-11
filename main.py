@@ -6,7 +6,10 @@ import webbrowser
 
 
 def showCallback(event):
-    queue.insert(0,event.name) # Adding current keypress to queue
+    if event.name == "backspace" and len(queue) > 0:
+        queue.pop(0)
+    else:
+        queue.insert(0,event.name) # Adding current keypress to queue
     if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
         queue.pop()
     if hotkeyTrigger in queue:
