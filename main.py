@@ -4,7 +4,7 @@ import csv
 import pyperclip
 from tkinter import Tk
 
-def processEvent(eventRow):
+def processEvent(eventRow,keyCheck):
     options = [] # Defining our options array then looping through them
     if eventRow['options'] != '':
         opts = eventRow['options'].split('|')
@@ -14,23 +14,22 @@ def processEvent(eventRow):
     if eventRow['type'] == 'url': # If it's a url
         url = eventRow['phrase']
 
+        url = eventRow['phrase'].split('|')[0]
         for o in options:
             if o[0] == 'clpb':
-                url = eventRow['phrase'].split('|')[0]
                 r = Tk()     
                 r.withdraw()     
                 clpbrd = str(r.clipboard_get())
-                if (int(o[1]) > len(clpbrd) > int(o[2])) and ((bool(o[3]) == True and clpbrd.isdigit()) or bool(o[3]) != True) and (o[4] in clpbrd):
-                    print(clpbrd)
-                    url = eventRow['phrase'].split('|')[1].replace('{}',clpbrd)
+                if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
+                    url = eventRow['phrase'].split('|')[int(o[5])].replace('{}',clpbrd)
         
-        os.system('start firefox ' + url) # Open the URL - May add browser selector later
+        os.system('start firefox "' + str(url) + '"') # Open the URL - May add browser selector later
         return True
 
     elif eventRow['type'] == 'p': # If it's a phrase
         for i in range(len(keyCheck) + 1): # Deleting the tigger because obviously we want the replaced by the phrase
             keyboard.send('backspace')
-        pyperclip.copy(key[keyCheck]['phrase'])
+        pyperclip.copy(eventRow['phrase'])
         keyboard.send('ctrl+v')
         return True 
 
@@ -53,7 +52,7 @@ def keyPressed(event):
         for key in hotkeyArray:
             if keyCheck in key: 
                 queue.clear() # Clearing to ensure there aren't two triggers
-                processEvent(key[keyCheck]) # Do the stuff
+                processEvent(key[keyCheck],keyCheck) # Do the stuff
 
 def loadSettings():
     with open('hotkey.csv', 'rt') as file:
