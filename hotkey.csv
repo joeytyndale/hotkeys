@@ -1,4 +1,4 @@
-trigger,type,phrase/url - With clpb option separate by |,options separated by commas
+trigger,type,phrase/url - With clpb option separate by |,options separated by |
 signature,p,"Best regards,
 
 Joseph
