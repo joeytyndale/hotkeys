@@ -5,13 +5,16 @@ import pyperclip
 from tkinter import Tk
 
 def processEvent(eventRow):
+
+    print(eventRow) # Mostly for troubleshooting
     
     options = [] # Defining our options array then looping through them
     if eventRow['options'] != '':
         opts = eventRow['options'].split('|')
         for op in opts:
             options.append(op.split(','))
-
+    print(options) 
+    
     # What's the type
     if eventRow['type'] == 'url': # If it's a url
         url = eventRow['phrase']
@@ -68,9 +71,11 @@ def showCallback(event):
                         keyboard.send('backspace')
                     pyperclip.copy(key[keyCheck]['phrase'])
                     keyboard.send('ctrl+v')
+                    print("Executed hotkey")
                 ##elif key[keyCheck]['type'] == 'url':
                     ##url = key[keyCheck]['phrase']
                     ##os.system('start firefox {}'.format(url))
+                    ##print("Opened page")
 
                 ###
                 ### OH YEAH

@@ -1,0 +1,20 @@
+## Documentation for hotkey program
+
+### Columns ###
+1 - Trigger
+	Includes the trigger word that must follow the action character (Currently /)
+2 - Type
+	Indicates the type of phrase
+		p - phrase) Simply prints out what's in the Phrase column
+		url - URL) Opens url in browser (Currently only firefox cause it's hard coded)
+3 - Phrase
+	Includes the action string. This is either the phrase that gets printed or the url that gets opened.
+	If it's a url and you're using the clpb option then include two urls separated by |. One is for if clipboard filters fail and the second is for if they pass
+4 - Options
+	Where the options can be listed. Options provide special functionality. Current options:
+		clpb - Clipboard) contains 5 slots
+			1 clpb - Name of option
+			2 maxLength - Number specifying max length of your clipboard. If the clipboard exceeds this then validation will fail
+			3 minLength - Number specifying min length of your clipboard. If the clipboard is below this then validation will fail
+			4 numberic - Boolean accepting True or False. If true then validation will ensure that your cliboard only contains numbers. Great for IDs and stuffs
+			5 contains - string that must exist in your clipboard for it to pass validation. For example put @ here to ensure an email address is copied
