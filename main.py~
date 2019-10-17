@@ -12,6 +12,8 @@ def processEvent(eventRow,keyCheck):
             options.append(op.split(','))
 
     if eventRow['type'] == 'url': # If it's a url
+        url = eventRow['phrase']
+
         url = eventRow['phrase'].split('|')[0]
         for o in options:
             if o[0] == 'clpb':
