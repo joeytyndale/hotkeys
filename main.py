@@ -18,8 +18,9 @@ def processEvent(eventRow,keyCheck):
                 r = Tk()     
                 r.withdraw()     
                 clpbrd = str(r.clipboard_get())
-                if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
-                    url = eventRow['phrase'].split('|')[int(o[5])].replace('{}',clpbrd)
+                if clpbrd is not None:
+                    if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
+                        url = eventRow['phrase'].split('|')[int(o[5])].replace('{}',clpbrd)
         
         os.system('start firefox "' + str(url) + '"') # Open the URL - May add browser selector later
         return True

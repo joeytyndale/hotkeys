@@ -1,5 +1,5 @@
 trigger,type,phrase/url - With clpb option separate by |,options separated by | while individual components of an option are comma separated
-sig,p,"Best regards,
+signature,p,"Best regards,
 
 Joseph
 LinkedIn Learning Support Specialist",
@@ -54,25 +54,4 @@ Best regards,
 
 $incidents.assigned.acct_id
 Lynda.com Support Specialist",
-joeyflask,url,http://www.joeytyndale.com:5000,
-ltrr,p,"• MID (if different from the top card of OSC): N/A
-• Member's name (if different from the top card of OSC/Unbound member): N/A
-• Member's email (if different from the top card of OSC/Unbound member): N/A
-• Profile ID:
-• Account ID:
-• Profile Requirement - 
-• Scheduled upgrade date: N/A
-• Lock out or Auto-Upgrade date: N/A
-• Pilot or trial: N/A
-• Total contract value (TVC): N/A
-• Length of the pilot/trial: N/A
-• Detailed description of the issue: {
-
-
-
-}
-• Troubleshooting that has been completed:
-• Exact steps to reproduce:?
-• Actual results (what is currently happening):?
-• Expected results (what should be happening):",
-ccc,p,https://help.linkedin.com/app/answers/global/id/1285,
+lcwr,,,
