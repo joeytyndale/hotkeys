@@ -17,12 +17,12 @@ def processEvent(eventRow,keyCheck):
             if o[0] == 'clpb':
                 r = Tk()     
                 r.withdraw()     
-                clpbrd = str(r.clipboard_get())
-                if clpbrd is not None:
+                if r.clipboard_get() is not None:
+                    clpbrd = str(r.clipboard_get())
                     if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
                         url = eventRow['phrase'].split('|')[int(o[5])].replace('{}',clpbrd)
         
-        os.system('start firefox "' + str(url) + '"') # Open the URL - May add browser selector later
+        os.system('start chrome "' + str(url) + '"') # Open the URL - May add browser selector later
         return True
 
     elif eventRow['type'] == 'p': # If it's a phrase
@@ -70,7 +70,7 @@ def loadSettings():
 if __name__ == "__main__":
     keyboard.add_word_listener("/resetsetting",loadSettings,triggers=['s']) # Used to reload the csv file
 
-    hotkeyTrigger = '/' # Sets hotkey trigger. Should be dynamic or configureable 
+    hotkeyTrigger = '$' # Sets hotkey trigger. Should be dynamic or configureable 
     hotkeyArray = []
     queue = [] # Initializes our keypress queue
 
