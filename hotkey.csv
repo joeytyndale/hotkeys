@@ -41,7 +41,7 @@ zuora,url,http://go/zuora,
 ent,p,https://www.linkedin.com/learning/login-ent,
 chatwelcome,p,You're very welcome! Was there anything else I might be able to assist with today?,
 chatsorry,p,I'm so sorry to hear that. Let me take a look at your account real quick,
-chatdisconnect,p,I'm going to disconnect the chat for now. If you still have any questions please feel free to chat in again. Have a great day!,
+chatdisconnect,p,"Hi {}, I'm going to disconnect the chat for now. If you still have any questions please feel free to chat in again. Have a great day!",
 blynda,p,"Hi $contacts.name.first,  
 
 Thank you for contacting Lynda.com, from LinkedIn.    
@@ -74,7 +74,25 @@ ltrr,p,"• MID (if different from the top card of OSC): N/A
 • Troubleshooting that has been completed:
 • Exact steps to reproduce:?
 • Actual results (what is currently happening):?
-• Expected results (what should be happening):",
+• Expected results (what should be happening):|• MID (if different from the top card of OSC): N/A
+• Member's name (if different from the top card of OSC/Unbound member): N/A
+• Member's email (if different from the top card of OSC/Unbound member): N/A
+{}
+• Profile Requirement - 
+• Scheduled upgrade date: N/A
+• Lock out or Auto-Upgrade date: N/A
+• Pilot or trial: N/A
+• Total contract value (TVC): N/A
+• Length of the pilot/trial: N/A
+• Detailed description of the issue: {
+
+
+
+}
+• Troubleshooting that has been completed:
+• Exact steps to reproduce:?
+• Actual results (what is currently happening):?
+• Expected results (what should be happening):","clpb,200,5,False,•,1"
 ccc,p,https://help.linkedin.com/app/answers/global/id/1285,
 nocert,p,"Hi $contacts.name.first,
 
@@ -95,7 +113,7 @@ Best regards,
 Joseph
 LinkedIn Learning Support Specialist",
 meincsp,url,https://customer.www.linkedin.com/support/account/urn:li:enterpriseAccount:104/profiles/12612415/licenses,
-disconnect,,"Hi $contacts.name.first,
+disconnect,p,"Hi $contacts.name.first,
 
 Thank you for contacting LinkedIn Learning.
 
@@ -107,3 +125,5 @@ Best regards,
 
 Joseph
 LinkedIn Learning Support Specialist",
+test,p,This wasn't in the hotkey: {},"clpb,100,5,False,@,0"
+link,url,{},"clpb,1000,5,False,.com,0"
