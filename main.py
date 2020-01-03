@@ -72,7 +72,7 @@ def processEvent(eventRow,keyCheck,dynamic=False):
 def keyPressed(event):
     if event.name == "backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
         queue.pop(0)
-    elif event.name != "shift":
+    elif event.name not in keyboard.all_modifiers:
         queue.insert(0,event.name) # Adding current keypress to queue
         if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
             queue.pop()
