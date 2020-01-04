@@ -44,19 +44,20 @@ def processEvent(eventRow,keyCheck,dynamic=False):
         for op in opts:
             options.append(op.split(','))
 
+    if dynamic == True:
+        phrase = str(eventRow['phrase'].replace('{}',keyCheck[keyCheck.index('{') + 1:keyCheck.index('}')]))
+    else:
+        phrase = str(clipboardReplace(eventRow['phrase'],options))
+
     if eventRow['type'] == 'url': # If it's a url
         url = clipboardReplace(eventRow['phrase'],options)
-       
+
         os.system('start chrome "' + str(url) + '"') # Open the URL - May add browser selector later
         return True
 
     elif eventRow['type'] == 'p': # If it's a phrase
         for i in range(len(keyCheck) + 1): # Deleting the tigger because obviously we want the replaced by the phrase
             keyboard.send('backspace')
-        if dynamic == True:
-            phrase = str(eventRow['phrase'].replace('{}',keyCheck[keyCheck.index('{') + 1:keyCheck.index('}')]))
-        else:
-            phrase = str(clipboardReplace(eventRow['phrase'],options))
         
         b = pyperclip.paste()
         pyperclip.copy(phrase)
@@ -73,7 +74,7 @@ def keyPressed(event):
     if event.name == "backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
         queue.pop(0)
     elif event.name not in keyboard.all_modifiers:
-        queue.insert(0,event.name) # Adding current keypress to queue
+        queue.insert(0," " if event.name == "space" else event.name) # Adding current keypress to queue
         if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
             queue.pop()
         
