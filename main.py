@@ -31,9 +31,7 @@ def clipboardReplace(string,options):
                 clpbrd = str(r.clipboard_get())
                 if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
                     string = string.split('|')[int(o[5])].replace('{}',clpbrd)
-                else:
-                    string = string.split('|')[0]
-    return(string)
+    return(string.split('|')[0])
      
 
 
@@ -50,7 +48,7 @@ def processEvent(eventRow,keyCheck,dynamic=False):
         phrase = str(clipboardReplace(eventRow['phrase'],options))
 
     if eventRow['type'] == 'url': # If it's a url
-        url = clipboardReplace(eventRow['phrase'],options)
+        url = phrase 
 
         os.system('start chrome "' + str(url) + '"') # Open the URL - May add browser selector later
         return True
@@ -66,7 +64,7 @@ def processEvent(eventRow,keyCheck,dynamic=False):
         except:
             print("Couldn't paste")
         finally:
-            time.sleep(.3)
+            time.sleep(.8)
             pyperclip.copy(b)
     return True
 
@@ -74,7 +72,7 @@ def keyPressed(event):
     if event.name == "backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
         queue.pop(0)
     elif event.name not in keyboard.all_modifiers:
-        queue.insert(0," " if event.name == "space" else event.name) # Adding current keypress to queue
+        queue.insert(0," " if event.name == "space" else event.name) # Adding current keypress to queue - Also translating "space" into " ".
         if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
             queue.pop()
         
