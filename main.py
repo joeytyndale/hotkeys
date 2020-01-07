@@ -1,3 +1,4 @@
+from pynput import keyboard as kb
 import keyboard
 import time
 import os
@@ -69,10 +70,11 @@ def processEvent(eventRow,keyCheck,dynamic=False):
     return True
 
 def keyPressed(event):
-    if event.name == "backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
+    print(event)
+    if event == "Key.backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
         queue.pop(0)
-    elif event.name not in keyboard.all_modifiers:
-        queue.insert(0," " if event.name == "space" else event.name) # Adding current keypress to queue - Also translating "space" into " ".
+    elif event not in keyboard.all_modifiers:
+        queue.insert(0," " if event == "Key.space" else event) # Adding current keypress to queue - Also translating "space" into " ".
         if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
             queue.pop()
         
@@ -109,12 +111,12 @@ def loadSettings():
         print("Loaded Settings!")
 
 if __name__ == "__main__":
-    keyboard.add_word_listener("resetsetting",loadSettings,triggers=['s']) # Used to reload the csv file
 
     hotkeyTrigger = '$' # Sets hotkey trigger. Should be dynamic or configureable 
     hotkeyArray = []
     queue = [] # Initializes our keypress queue
 
     loadSettings() # Load CSV file with hotkeys and settings
-    keyboard.on_press(keyPressed) # SOMEONE PRESSED SOMETHING
-    keyboard.wait() # Don't close our program thanks
+    with kb.Listener(
+            on_press=keyPressed) as listener:
+        listener.join()
