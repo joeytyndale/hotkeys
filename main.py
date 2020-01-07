@@ -1,42 +1,78 @@
 import keyboard
+import time
 import os
 import csv
 import pyperclip
 from tkinter import Tk
 
-def processEvent(eventRow,keyCheck):
+
+##
+##  May want to branch out different "type"s into functions
+##
+def phrase():
+    return 1
+
+def url():
+    return 1
+
+def dynamicPhrase(): ## Should this be subset of phrase function??
+    return 1
+
+##
+##
+##
+
+def clipboardReplace(string,options):
+    for o in options:
+        if o[0] == 'clpb':
+            r = Tk()     
+            r.withdraw()     
+            if r.clipboard_get() is not None:
+                clpbrd = str(r.clipboard_get())
+                if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
+                    string = string.split('|')[int(o[5])].replace('{}',clpbrd)
+    return(string.split('|')[0])
+     
+
+
+def processEvent(eventRow,keyCheck,dynamic=False):
     options = [] # Defining our options array then looping through them
     if eventRow['options'] != '':
         opts = eventRow['options'].split('|')
         for op in opts:
             options.append(op.split(','))
 
+    if dynamic == True:
+        phrase = str(eventRow['phrase'].replace('{}',keyCheck[keyCheck.index('{') + 1:keyCheck.index('}')]))
+    else:
+        phrase = str(clipboardReplace(eventRow['phrase'],options))
+
     if eventRow['type'] == 'url': # If it's a url
-        url = eventRow['phrase'].split('|')[0]
-        for o in options:
-            if o[0] == 'clpb':
-                r = Tk()     
-                r.withdraw()     
-                if r.clipboard_get() is not None:
-                    clpbrd = str(r.clipboard_get())
-                    if (int(o[1]) > len(clpbrd) > int(o[2])) and ((o[3] == "True" and clpbrd.isdigit()) or o[3] == "False") and (o[4] in clpbrd):
-                        url = eventRow['phrase'].split('|')[int(o[5])].replace('{}',clpbrd)
-        
+        url = phrase 
+
         os.system('start chrome "' + str(url) + '"') # Open the URL - May add browser selector later
         return True
 
     elif eventRow['type'] == 'p': # If it's a phrase
         for i in range(len(keyCheck) + 1): # Deleting the tigger because obviously we want the replaced by the phrase
             keyboard.send('backspace')
-        pyperclip.copy(eventRow['phrase'])
-        keyboard.send('ctrl+v')
-        return True 
+        
+        b = pyperclip.paste()
+        pyperclip.copy(phrase)
+        try:
+            keyboard.send('ctrl+v')
+        except:
+            print("Couldn't paste")
+        finally:
+            time.sleep(.8)
+            pyperclip.copy(b)
+    return True
 
 def keyPressed(event):
     if event.name == "backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
         queue.pop(0)
-    else:
-        queue.insert(0,event.name) # Adding current keypress to queue
+    elif event.name not in keyboard.all_modifiers:
+        queue.insert(0," " if event.name == "space" else event.name) # Adding current keypress to queue - Also translating "space" into " ".
         if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
             queue.pop()
         
@@ -52,11 +88,16 @@ def keyPressed(event):
             if keyCheck in key: 
                 queue.clear() # Clearing to ensure there aren't two triggers
                 processEvent(key[keyCheck],keyCheck) # Do the stuff
+            elif '{' in keyCheck and '}' in keyCheck:
+                if keyCheck[keyCheck.index('}') + 1:] in key:
+                    queue.clear()
+                    processEvent(key[keyCheck[keyCheck.index('}') + 1:]],keyCheck,True)
 
 def loadSettings():
     with open('hotkey.csv', 'rt') as file:
-        reader = csv.reader(file, delimiter=',')
+        reader = iter(csv.reader(file, delimiter=','))
         hotkeyArray.clear()
+        next(reader)
         for row in reader:
             hotkeyArray.append({
                 row[0]:{
