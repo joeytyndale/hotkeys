@@ -70,30 +70,57 @@ def processEvent(eventRow,keyCheck,dynamic=False):
     return True
 
 def keyPressed(event):
-    print(event)
-    if event == "Key.backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
-        queue.pop(0)
-    elif event not in keyboard.all_modifiers:
-        queue.insert(0," " if event == "Key.space" else event) # Adding current keypress to queue - Also translating "space" into " ".
-        if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
-            queue.pop()
-        
-    if hotkeyTrigger in queue:
-        keyCheck = queue[0 if queue.index(hotkeyTrigger) == 0 else queue.index(hotkeyTrigger)-1::-1] 
-            # There's a lot going on here. We slice the array going backwards from where the trigger is
-            # But there's a condition because we don't want to include the trigger so we need the starting index to be -1 of the trigger's index. But if trigger is index 0 then we just want 0
-            # This might be overly complicated but it works so hush
 
-        keyCheck = ''.join(keyCheck) # Converting our keypress queue into a string
+    global released
 
-        for key in hotkeyArray:
-            if keyCheck in key: 
-                queue.clear() # Clearing to ensure there aren't two triggers
-                processEvent(key[keyCheck],keyCheck) # Do the stuff
-            elif '{' in keyCheck and '}' in keyCheck:
-                if keyCheck[keyCheck.index('}') + 1:] in key:
-                    queue.clear()
-                    processEvent(key[keyCheck[keyCheck.index('}') + 1:]],keyCheck,True)
+    print(released)
+
+    if released: # Only process key if it's due to genuine key press
+
+        # Converting this stupid pynput object to a string that we can DO SOMETHING WITH
+        event = str(event)
+        if event[0:3] == "Key":
+            event = event[4:] 
+        else:
+            print(event[0:2])
+            event = event[1:-1]
+        print(event)
+
+        # Doing stuff
+        if event == "backspace" and len(queue) > 0: # Allows us to correct mispelled keywords
+            queue.pop(0)
+        elif event not in modifiers:
+            queue.insert(0," " if event == "space" else event) # Adding current keypress to queue - Also translating "space" into " ".
+            if(len(queue) > 32): # We only want to track 32 recent presses (max length for hotkey) if larger pop off oldest one
+                queue.pop()
+
+
+        print(queue)
+            
+        if hotkeyTrigger in queue:
+            keyCheck = queue[0 if queue.index(hotkeyTrigger) == 0 else queue.index(hotkeyTrigger)-1::-1] 
+                # There's a lot going on here. We slice the array going backwards from where the trigger is
+                # But there's a condition because we don't want to include the trigger so we need the starting index to be -1 of the trigger's index. But if trigger is index 0 then we just want 0
+                # This might be overly complicated but it works so hush
+
+            keyCheck = ''.join(keyCheck) # Converting our keypress queue into a string
+
+            for key in hotkeyArray:
+                if keyCheck in key: 
+                    queue.clear() # Clearing to ensure there aren't two triggers
+                    processEvent(key[keyCheck],keyCheck) # Do the stuff
+                elif '{' in keyCheck and '}' in keyCheck:
+                    print("at least we see the brackets")
+                    if keyCheck[keyCheck.index('}') + 1:] in key:
+                        queue.clear()
+                        processEvent(key[keyCheck[keyCheck.index('}') + 1:]],keyCheck,True)
+
+        released = False if event != "shift" else True # Setting released to false to ensure that no other keystrokes come in due to the key being held. resume() will swap this to true when the key is released
+
+def resume(key):
+    global released
+    print(released)
+    released = True
 
 def loadSettings():
     with open('hotkey.csv', 'rt') as file:
@@ -114,9 +141,10 @@ if __name__ == "__main__":
 
     hotkeyTrigger = '$' # Sets hotkey trigger. Should be dynamic or configureable 
     hotkeyArray = []
+    modifiers = ["caps_lock","cmd","cmd_l","cmd_r","ctrl","ctrl_r","delete","down","end","enter","esc","home","left","page_down","page_up","right","shift","shift_l","shift_r","space","tab","up","media_play_pause","media_volume_mute","media_volume_down","media_volume_up","media_previous","media_next","insert","menu","num_lock","pause","print_screen","scroll_lock","ctrl","alt","alt_l","alt_r","ctrl_l"]
     queue = [] # Initializes our keypress queue
+    released = True # This is needed for the mac version (With Pynput) because if the key is held it will be added over and over to the queue. We stop this by tracking the release() event
 
     loadSettings() # Load CSV file with hotkeys and settings
-    with kb.Listener(
-            on_press=keyPressed) as listener:
+    with kb.Listener(on_press=keyPressed,on_release=resume) as listener:
         listener.join()
