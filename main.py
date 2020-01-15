@@ -50,7 +50,7 @@ def processEvent(eventRow,keyCheck,dynamic=False):
     if eventRow['type'] == 'url': # If it's a url
         url = phrase 
 
-        os.system('start firefox developer edition "' + str(url) + '"') # Open the URL - May add browser selector later
+        os.system('start firefox "' + str(url) + '"') # Open the URL - May add browser selector later
         return True
 
     elif eventRow['type'] == 'p': # If it's a phrase
