@@ -127,3 +127,6 @@ Joseph
 LinkedIn Learning Support Specialist",
 test,p,This wasn't in the hotkey: {},"clpb,100,5,False,@,0"
 link,url,{},"clpb,1000,5,False,.com,0|clpb,1000,5,False,.org,0"
+helplink,url,https://www.linkedin.com/help,
+helplearning,url,https://www.linkedin.com/help/learning,
+helplynda,url,https://www.linkedin.com/help/lynda,
