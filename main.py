@@ -43,7 +43,9 @@ def processEvent(eventRow,keyCheck,dynamic=False):
             options.append(op.split(','))
 
     if dynamic == True:
-        phrase = str(eventRow['phrase'].replace('{}',keyCheck[keyCheck.index('{') + 1:keyCheck.index('}')]))
+        for o in options:
+            if o[0] == 'dyn':
+                phrase = str(eventRow['phrase'].split('|')[int(o[1])].replace('{}',keyCheck[keyCheck.index('{') + 1:keyCheck.index('}')]))
     else:
         phrase = str(clipboardReplace(eventRow['phrase'],options))
 

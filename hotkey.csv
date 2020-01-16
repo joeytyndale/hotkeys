@@ -15,9 +15,9 @@ Best regards,
 
 Joseph
 LinkedIn Learning Support Specialist",
-csp,url,https://customer.www.linkedin.com/support/|https://customer.www.linkedin.com/support/search?query={},"clpb,100,5,False,@,1"
+csp,url,https://customer.www.linkedin.com/support/|https://customer.www.linkedin.com/support/search?query={},"clpb,100,5,False,@,1|dyn,1"
 otl,url,https://admin.lynda.com/CS/Search.aspx,
-ins,url,https://cstool.www.linkedin.com/cstool/|https://cstool.www.linkedin.com/cstool/members/{}|https://cstool.www.linkedin.com/cstool/searchResults/?type=MEMBER&rawQuery={},"clpb,14,6,True,,1|clpb,32,1,False,@,2"
+ins,url,https://cstool.www.linkedin.com/cstool/|https://cstool.www.linkedin.com/cstool/members/{}|https://cstool.www.linkedin.com/cstool/searchResults/?type=MEMBER&rawQuery={},"clpb,14,6,True,,1|clpb,32,1,False,@,2|dyn,2"
 cstool,url,https://cstool.www.linkedin.com/leocs/genericSearch?view=,
 youtube,url,https://www.youtube.com,
 lil,url,https://www.linkedin.com/learning,
@@ -41,7 +41,7 @@ zuora,url,http://go/zuora,
 ent,p,https://www.linkedin.com/learning/login-ent,
 chatwelcome,p,You're very welcome! Was there anything else I might be able to assist with today?,
 chatsorry,p,I'm so sorry to hear that. Let me take a look at your account real quick,
-chatdisconnect,p,"Hi {}, I'm going to disconnect the chat for now. If you still have any questions please feel free to chat in again. Have a great day!",
+chatdisconnect,p,"I'm going to disconnect the chat for now. If you still have any questions please feel free to chat in again. Have a great day!",
 blynda,p,"Hi $contacts.name.first,  
 
 Thank you for contacting Lynda.com, from LinkedIn.    
@@ -124,9 +124,9 @@ Please let us know if we may be of assistance in the future.
 Best regards,
 
 Joseph
-LinkedIn Learning Support Specialist",
-test,p,This wasn't in the hotkey: {},"clpb,100,5,False,@,0"
-link,url,{},"clpb,1000,5,False,.com,0|clpb,1000,5,False,.org,0"
+LinkedIn Learning Support Specialist","dyn,0"
+test,p,This wasn't in the hotkey: {},"clpb,100,5,False,@,0|dyn,0"
+link,url,{},"clpb,1000,5,False,.com,0|clpb,1000,5,False,.org,0|dyn,0"
 helplink,url,https://www.linkedin.com/help,
 helplearning,url,https://www.linkedin.com/help/learning,
 helplynda,url,https://www.linkedin.com/help/lynda,
